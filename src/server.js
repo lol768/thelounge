@@ -272,7 +272,7 @@ function index(req, res, next) {
 			throw err;
 		}
 
-		res.send(_.template(file)(getServerConfiguration()));
+		getServerConfiguration().then((config) => res.send(_.template(file)(config)));
 	});
 }
 
@@ -575,11 +575,36 @@ function getClientConfiguration() {
 }
 
 function getServerConfiguration() {
-	const config = _.clone(Helper.config);
+	return new Promise((resolve, reject) => {
+		const config = _.clone(Helper.config);
 
-	config.stylesheets = packages.getStylesheets();
+		config.stylesheets = packages.getStylesheets();
+		config.hashes = new Map();
 
-	return config;
+		const files = [
+			"css/style.css",
+			"js/bundle.vendor.js",
+			"js/bundle.js",
+		];
+
+		files.forEach((file) => {
+			fs.readFile(path.join(__dirname, "..", "public", file), (err, data) => {
+				if (err) {
+					throw err;
+				}
+
+				const crypto = require("crypto");
+				const sha = crypto.createHash("sha384").update(data).digest("base64");
+				const integrity = `sha384-${sha}`;
+
+				config.hashes.set(file, integrity);
+
+				if (config.hashes.size === files.length) {
+					resolve(config);
+				}
+			});
+		});
+	});
 }
 
 function performAuthentication(data) {

@@ -5,11 +5,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 
-	<link rel="preload" as="script" href="js/bundle.vendor.js">
-	<link rel="preload" as="script" href="js/bundle.js">
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/primer-tooltips.css">
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/style.css" integrity="<%- hashes.get("css/style.css") %>">
 	<link id="theme" rel="stylesheet" href="themes/<%- theme %>.css" data-server-theme="<%- theme %>">
 	<% _.forEach(stylesheets, function(css) { %>
 		<link rel="stylesheet" href="packages/<%- css %>">
@@ -94,8 +92,8 @@
 
 	<div id="image-viewer"></div>
 
-	<script src="js/bundle.vendor.js"></script>
-	<script src="js/bundle.js"></script>
+	<script src="js/bundle.vendor.js" integrity="<%- hashes.get("js/bundle.vendor.js") %>"></script>
+	<script src="js/bundle.js" integrity="<%- hashes.get("js/bundle.js") %>"></script>
 
 	</body>
 </html>
