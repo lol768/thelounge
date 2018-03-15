@@ -145,6 +145,12 @@ $(function() {
 
 			if (target.hasClass("lobby")) {
 				output += templates.contextmenu_item({
+					class: "edit",
+					action: "edit",
+					text: "Edit this network…",
+					data: target.closest(".network").data("uuid"),
+				});
+				output += templates.contextmenu_item({
 					class: "list",
 					action: "list",
 					text: "List all channels",
@@ -529,6 +535,11 @@ $(function() {
 		join(itemData) {
 			const network = $(`#join-channel-${itemData}`).closest(".network");
 			JoinChannel.openForm(network);
+		},
+		edit(itemData) {
+			socket.emit("network:get", itemData);
+			$("#connect").text("Loading");
+			$('button[data-target="#connect"]').click();
 		},
 		close(itemData) {
 			closeChan($(`.networks .chan[data-target="${itemData}"]`));
