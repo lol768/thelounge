@@ -40,15 +40,15 @@ function showContextMenu(contextMenuItems, selectedElement, event) {
 
 	for (const item of contextMenuItems) {
 		if (item.check(target)) {
-			output += templates.contextmenu_item({
-				class: typeof item.className === "function" ? item.className(target) : item.className,
-				action: item.actionId,
-				text: typeof item.display === "function" ? item.display(target) : item.display,
-				data: typeof item.data === "function" ? item.data(target) : item.data,
-			});
-
 			if (item.divider) {
 				output += templates.contextmenu_divider();
+			} else {
+				output += templates.contextmenu_item({
+					class: typeof item.className === "function" ? item.className(target) : item.className,
+					action: item.actionId,
+					text: typeof item.display === "function" ? item.display(target) : item.display,
+					data: typeof item.data === "function" ? item.data(target) : item.data,
+				});
 			}
 		}
 	}

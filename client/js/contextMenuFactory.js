@@ -21,12 +21,17 @@ addDefaultItems();
  * @param {string|function(Object)} opts.className - class name for the menu item, should be prefixed for non-default menu items (if function, called with jquery element, and uses return value)
  * @param {string|function(Object)} opts.data - data that will be sent to the callback function (if function, called with jquery element, and uses return value)
  * @param {string|function(Object)} opts.display - text to display on the menu item (if function, called with jquery element, and uses return value)
- * @param {boolean} [opts.divider] - Whether to put a divider after this option in the menu
  * @param {function(Object)} opts.callback - Function to call when the context menu item is clicked, called with the data requested in opts.data
  */
 function addContextMenuItem(opts) {
 	opts.check = opts.check || (() => true);
 	opts.actionId = contextMenuActions.push(opts.callback) - 1;
+	contextMenuItems.push(opts);
+}
+
+function addContextDivider(opts) {
+	opts.check = opts.check || (() => true);
+	opts.divider = true;
 	contextMenuItems.push(opts);
 }
 
@@ -55,8 +60,11 @@ function addWhoisItem() {
 		className: "user",
 		display: (target) => target.data("name"),
 		data: (target) => target.data("name"),
-		divider: true,
 		callback: whois,
+	});
+
+	addContextDivider({
+		check: (target) => target.hasClass("user"),
 	});
 
 	addContextMenuItem({
@@ -128,8 +136,11 @@ function addFocusItem() {
 		className: getClass,
 		display: (target) => target.attr("aria-label"),
 		data: (target) => target.data("target"),
-		divider: true,
 		callback: focusChan,
+	});
+
+	addContextDivider({
+		check: (target) => target.hasClass("chan"),
 	});
 }
 
