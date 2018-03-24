@@ -323,11 +323,6 @@ $(function() {
 
 		if (chan.length) {
 			chan.trigger("click");
-		} else {
-			socket.emit("input", {
-				target: chat.data("id"),
-				text: "/join " + name,
-			});
 		}
 	});
 

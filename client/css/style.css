@@ -1144,14 +1144,6 @@ kbd {
 	padding: 0 10px;
 }
 
-.inline-channel {
-	cursor: pointer;
-}
-
-.inline-channel:hover {
-	opacity: 0.6;
-}
-
 #chat .time,
 #chat .from,
 #chat .content {
